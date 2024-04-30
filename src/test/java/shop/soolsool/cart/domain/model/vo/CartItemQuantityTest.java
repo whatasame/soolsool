@@ -1,0 +1,36 @@
+package shop.soolsool.cart.domain.model.vo;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import shop.soolsool.core.exception.SoolSoolException;
+
+@DisplayName("단위 테스트: CartItemQuantity")
+class CartItemQuantityTest {
+
+    @Test
+    @DisplayName("장바구니 상품 수량을 정상적으로 생성한다.")
+    void create() {
+        /* given */
+        final int quantity = 100;
+
+        /* when & then */
+        assertThatCode(() -> new CartItemQuantity(quantity)).doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    @DisplayName("장바구니 상품 수량이 1 미만일 경우 SoolSoolException을 던진다.")
+    void createFailWithLessThanOne(final int quantity) {
+        /* given */
+
+        /* when & then */
+        assertThatThrownBy(() -> new CartItemQuantity(quantity))
+                .isExactlyInstanceOf(SoolSoolException.class)
+                .hasMessage("장바구니 상품 수량은 1개 이상이어야 합니다.");
+    }
+}

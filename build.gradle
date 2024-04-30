@@ -3,9 +3,10 @@ plugins {
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "org.sonarqube" version "4.2.1.3168"
+    id 'com.diffplug.spotless' version "6.25.0"
 }
 
-group = 'com.woowacamp'
+group = 'shop.soolsool'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -34,7 +35,7 @@ dependencies {
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'com.github.maricn:logback-slack-appender:1.6.1'
+//    implementation 'com.github.maricn:logback-slack-appender:1.6.1'
     implementation 'org.redisson:redisson:3.23.3'
 
     compileOnly 'org.projectlombok:lombok'
@@ -81,3 +82,22 @@ sourceSets {
 clean {
     delete file(generated)
 }
+
+spotless {
+    java {
+        target('**/*.java')
+        importOrder()
+        removeUnusedImports()
+
+        endWithNewline()
+
+        cleanthat()
+        palantirJavaFormat()
+    }
+}
+
+tasks.register('updateGitHooks', Copy) {
+    from './scripts/pre-commit'
+    into './.git/hooks'
+}
+compileJava.dependsOn(updateGitHooks)

@@ -1,0 +1,17 @@
+package shop.soolsool.core.infra;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum LockType {
+    MEMBER("MEMBER:"),
+    LIQUOR_CTR("LIQUOR_CTR:"),
+    LIQUOR_STOCK("LIQUOR_STOCK:"),
+    ORDER("ORDER:"),
+    RECEIPT("RECEIPT:"),
+    ;
+
+    private final String prefix;
+}

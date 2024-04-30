@@ -1,0 +1,186 @@
+package shop.soolsool.receipt.domain.model;
+
+import java.math.BigInteger;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import shop.soolsool.core.common.BaseEntity;
+import shop.soolsool.liquor.domain.model.Liquor;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemAlcoholConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemBrandConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemBrewConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemImageUrlConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemNameConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemPriceConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemQuantityConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemRegionConverter;
+import shop.soolsool.receipt.domain.model.converter.ReceiptItemVolumeConverter;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemAlcohol;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemBrand;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemBrew;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemImageUrl;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemName;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemPrice;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemQuantity;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemRegion;
+import shop.soolsool.receipt.domain.model.vo.ReceiptItemVolume;
+
+@Entity
+@Table(name = "receipt_items")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class ReceiptItem extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receipt_id", nullable = false)
+    @Getter
+    private Receipt receipt;
+
+    @Getter
+    @Column(name = "liquor_id", nullable = false)
+    private Long liquorId;
+
+    @Column(name = "liquor_brew", nullable = false)
+    @Convert(converter = ReceiptItemBrewConverter.class)
+    private ReceiptItemBrew liquorBrew;
+
+    @Column(name = "liquor_region", nullable = false)
+    @Convert(converter = ReceiptItemRegionConverter.class)
+    private ReceiptItemRegion liquorRegion;
+
+    @Column(name = "liquor_name", nullable = false)
+    @Convert(converter = ReceiptItemNameConverter.class)
+    private ReceiptItemName liquorName;
+
+    @Column(name = "liquor_original_price", nullable = false, length = 255)
+    @Convert(converter = ReceiptItemPriceConverter.class)
+    private ReceiptItemPrice liquorOriginalPrice;
+
+    @Column(name = "liquor_purchased_price", nullable = false, length = 255)
+    @Convert(converter = ReceiptItemPriceConverter.class)
+    private ReceiptItemPrice liquorPurchasedPrice;
+
+    @Column(name = "liquor_brand", nullable = false, length = 20)
+    @Convert(converter = ReceiptItemBrandConverter.class)
+    private ReceiptItemBrand liquorBrand;
+
+    @Column(name = "liquor_image_url", nullable = false, length = 255)
+    @Convert(converter = ReceiptItemImageUrlConverter.class)
+    private ReceiptItemImageUrl liquorImageUrl;
+
+    @Column(name = "liquor_alcohol", nullable = false)
+    @Convert(converter = ReceiptItemAlcoholConverter.class)
+    private ReceiptItemAlcohol liquorAlcohol;
+
+    @Column(name = "liquor_volume", nullable = false)
+    @Convert(converter = ReceiptItemVolumeConverter.class)
+    private ReceiptItemVolume liquorVolume;
+
+    @Column(name = "quantity", nullable = false)
+    @Convert(converter = ReceiptItemQuantityConverter.class)
+    private ReceiptItemQuantity quantity;
+
+    @Builder
+    public ReceiptItem(
+            final Receipt receipt,
+            @NonNull final Long liquorId,
+            @NonNull final String liquorBrew,
+            @NonNull final String liquorRegion,
+            @NonNull final String liquorName,
+            @NonNull final String liquorOriginalPrice,
+            @NonNull final String liquorPurchasedPrice,
+            @NonNull final String liquorBrand,
+            @NonNull final String liquorImageUrl,
+            @NonNull final Double liquorAlcohol,
+            @NonNull final Integer liquorVolume,
+            @NonNull final Integer quantity) {
+        this.receipt = receipt;
+        this.liquorId = liquorId;
+        this.liquorBrew = new ReceiptItemBrew(liquorBrew);
+        this.liquorRegion = new ReceiptItemRegion(liquorRegion);
+        this.liquorName = new ReceiptItemName(liquorName);
+        this.liquorOriginalPrice = new ReceiptItemPrice(new BigInteger(liquorOriginalPrice));
+        this.liquorPurchasedPrice = new ReceiptItemPrice(new BigInteger(liquorPurchasedPrice));
+        this.liquorBrand = new ReceiptItemBrand(liquorBrand);
+        this.liquorImageUrl = new ReceiptItemImageUrl(liquorImageUrl);
+        this.liquorAlcohol = new ReceiptItemAlcohol(liquorAlcohol);
+        this.liquorVolume = new ReceiptItemVolume(liquorVolume);
+        this.quantity = new ReceiptItemQuantity(quantity);
+    }
+
+    public static ReceiptItem of( // 생성자로 바꾸기
+            final Liquor liquor, final int quantity) {
+        return ReceiptItem.builder()
+                .liquorId(liquor.getId())
+                .liquorBrew(liquor.getBrew().getType().getName())
+                .liquorRegion(liquor.getRegion().getType().getName())
+                .liquorName(liquor.getName())
+                .liquorOriginalPrice(liquor.getPrice().toString())
+                .liquorPurchasedPrice(liquor.getPrice().toString())
+                .liquorBrand(liquor.getBrand())
+                .liquorImageUrl(liquor.getImageUrl())
+                .liquorAlcohol(liquor.getAlcohol())
+                .liquorVolume(liquor.getVolume())
+                .quantity(quantity)
+                .build();
+    }
+
+    public String getReceiptItemBrew() {
+        return liquorBrew.getBrew();
+    }
+
+    public String getReceiptItemRegion() {
+        return liquorRegion.getRegion();
+    }
+
+    public String getReceiptItemName() {
+        return liquorName.getName();
+    }
+
+    public BigInteger getReceiptItemOriginalPrice() {
+        return liquorOriginalPrice.getPrice();
+    }
+
+    public BigInteger getReceiptItemPurchasedPrice() {
+        return liquorPurchasedPrice.getPrice();
+    }
+
+    public String getReceiptItemBrand() {
+        return liquorBrand.getBrand();
+    }
+
+    public String getReceiptItemImageUrl() {
+        return liquorImageUrl.getImageUrl();
+    }
+
+    public Double getReceiptItemAlcohol() {
+        return liquorAlcohol.getAlcohol();
+    }
+
+    public Integer getReceiptItemVolume() {
+        return liquorVolume.getVolume();
+    }
+
+    public int getQuantity() {
+        return quantity.getQuantity();
+    }
+
+    public void setReceipt(final Receipt receipt) {
+        this.receipt = receipt;
+    }
+}

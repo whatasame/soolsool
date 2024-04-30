@@ -1,0 +1,15 @@
+package shop.soolsool.order.ui.response;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
+
+@Getter
+public class OrderRatioResponse {
+
+    private final Double ratio;
+
+    @JsonCreator
+    public OrderRatioResponse(final Double ratio) {
+        this.ratio = ratio;
+    }
+}

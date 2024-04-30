@@ -1,0 +1,6 @@
+- [ ] 요청 로깅 AOP을 non-annotation 기반으로 수정
+- [ ] 분산락 AOP 적용
+- [ ] Java 21 업그레이드
+    - [ ] 결제 외부 API 가상 쓰레드 적용
+    - [ ] DTO record로 변경
+- [ ] ui DTO, application DTO 구분

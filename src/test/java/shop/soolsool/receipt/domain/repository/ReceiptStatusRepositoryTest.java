@@ -1,0 +1,36 @@
+package shop.soolsool.receipt.domain.repository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static shop.soolsool.receipt.domain.model.vo.ReceiptStatusType.INPROGRESS;
+
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
+import shop.soolsool.core.config.MultipleCacheManagerConfig;
+import shop.soolsool.receipt.domain.model.ReceiptStatus;
+
+@DataJpaTest
+@Sql("/receipt-type.sql")
+@DisplayName("통합 테스트: ReceiptStatusRepository")
+@Import({ReceiptStatusCache.class, MultipleCacheManagerConfig.class})
+class ReceiptStatusRepositoryTest {
+
+    @Autowired
+    ReceiptStatusCache receiptStatusRepository;
+
+    @Test
+    @DisplayName("주문서 상태를 주문서 상태 타입으로 검색한다.")
+    void findByType() {
+        /* given */
+
+        /* when */
+        final Optional<ReceiptStatus> receiptStatus = receiptStatusRepository.findByType(INPROGRESS);
+
+        /* then */
+        assertThat(receiptStatus).isPresent();
+    }
+}
