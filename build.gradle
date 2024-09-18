@@ -1,83 +1,54 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.14'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id "org.sonarqube" version "4.2.1.3168"
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "com.diffplug.spotless" version "6.23.3"
 }
 
-group = 'com.woowacamp'
-version = '0.0.1-SNAPSHOT'
+bootJar.enabled = false
 
-java {
-    sourceCompatibility = '11'
-}
+subprojects {
+    group = 'com.whatasame.soolsool'
+    version = '1.0.0'
+    sourceCompatibility = '21'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.diffplug.spotless'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    spotless {
+        java {
+            importOrder()
+
+            removeUnusedImports()
+
+            cleanthat()
+
+            palantirJavaFormat()
+//            formatAnnotations()
+        }
     }
 }
 
-repositories {
-    mavenCentral()
+task updateGitHooks(type: Copy) {
+    from './scripts/pre-commit'
+    into './.git/hooks'
 }
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'com.github.ben-manes.caffeine:caffeine'
-
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'com.github.maricn:logback-slack-appender:1.6.1'
-    implementation 'org.redisson:redisson:3.23.3'
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
-    testImplementation 'org.testcontainers:testcontainers:1.19.0'
-
-    // querydsl
-    implementation "com.querydsl:querydsl-jpa"
-    implementation "com.querydsl:querydsl-core"
-    implementation "com.querydsl:querydsl-collections"
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-sonar {
-    properties {
-        property "sonar.projectKey", "woowatechcamp_soolsool"
-        property "sonar.organization", "woowatechcamp"
-        property "sonar.host.url", "https://sonarcloud.io"
-    }
-}
-
-def generated = 'src/main/generated'
-
-tasks.withType(JavaCompile) {
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-sourceSets {
-    main.java.srcDirs += [generated]
-}
-
-clean {
-    delete file(generated)
-}
+compileJava.dependsOn(updateGitHooks)
