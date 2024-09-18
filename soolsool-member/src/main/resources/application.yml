@@ -1,17 +1,14 @@
 spring:
-  config:
-    activate:
-      on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SOOLSOOL_MYSQL_URL}
-    username: ${SOOLSOOL_MYSQL_USERNAME}
-    password: ${SOOLSOOL_MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/soolsool
+    username: root
+    password: 1234
   jpa:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true
