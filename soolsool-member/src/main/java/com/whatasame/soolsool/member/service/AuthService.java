@@ -5,6 +5,7 @@ import com.whatasame.soolsool.member.command.EmailLogin;
 import com.whatasame.soolsool.member.store.MemberStore;
 import com.whatasame.soolsool.security.jwt.JwtProvider;
 import com.whatasame.soolsool.security.jwt.model.AuthToken;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public AuthToken login(final EmailLogin command) {
-        final String encodedPassword = passwordEncoder.encode(command.password());
+        final Member member = memberStore.load(command.email());
+        if (!passwordEncoder.matches(command.password(), member.password())) {
+            throw new IllegalArgumentException("이메일 혹은 비밀번호가 일치하지 않습니다.");
+        }
 
-        final Member member = memberStore.load(command.email(), encodedPassword);
-
-        return jwtProvider.createToken(member.id());
+        return jwtProvider.createToken(member.id(), List.of(member.role().name()));
     }
 }

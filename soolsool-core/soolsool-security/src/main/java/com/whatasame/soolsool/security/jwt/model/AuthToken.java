@@ -1,8 +1,10 @@
 package com.whatasame.soolsool.security.jwt.model;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class AuthToken {
 
     private final String accessToken;

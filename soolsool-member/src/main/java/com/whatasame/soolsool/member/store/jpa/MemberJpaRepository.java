@@ -7,7 +7,7 @@ public interface MemberJpaRepository extends Repository<MemberJpo, Long> {
 
     MemberJpo save(MemberJpo memberJpo);
 
-    Optional<MemberJpo> findByEmailAndPassword(String email, String password);
+    Optional<MemberJpo> findByEmail(String email);
 
     boolean existsByEmail(String email);
 }

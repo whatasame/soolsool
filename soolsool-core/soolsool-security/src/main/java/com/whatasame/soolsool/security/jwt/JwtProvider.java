@@ -5,6 +5,7 @@ import com.whatasame.soolsool.security.jwt.model.AuthToken.AccessToken;
 import com.whatasame.soolsool.security.jwt.model.AuthToken.RefreshToken;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +13,20 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtProvider {
 
+    private static final String AUTHORITIES_KEY = "roles";
+
     private final JwtSecret jwtSecret;
 
-    public AuthToken createToken(Object principal) {
-        return new AuthToken(createAccessToken(principal), createRefreshToken(principal));
+    public AuthToken createToken(final Object principal, final List<String> authorities) {
+        return new AuthToken(createAccessToken(principal, authorities), createRefreshToken(principal, authorities));
     }
 
-    private AccessToken createAccessToken(Object principal) {
+    private AccessToken createAccessToken(final Object principal, final List<String> authorities) {
         final long now = System.currentTimeMillis();
 
-        String value = Jwts.builder()
+        final String value = Jwts.builder()
                 .subject(principal.toString())
+                .claim(AUTHORITIES_KEY, authorities)
                 .signWith(jwtSecret.getAccessTokenKey())
                 .issuedAt(new Date(now))
                 .expiration(new Date(now + jwtSecret.accessTokenExpiration()))
@@ -31,11 +35,12 @@ public class JwtProvider {
         return new AccessToken(value);
     }
 
-    private RefreshToken createRefreshToken(Object principal) {
+    private RefreshToken createRefreshToken(final Object principal, final List<String> authorities) {
         final long now = System.currentTimeMillis();
 
-        String value = Jwts.builder()
+        final String value = Jwts.builder()
                 .subject(principal.toString())
+                .claim(AUTHORITIES_KEY, authorities)
                 .signWith(jwtSecret.getRefreshTokenKey())
                 .issuedAt(new Date(now))
                 .expiration(new Date(now + jwtSecret.refreshTokenExpiration()))

@@ -18,9 +18,9 @@ public class MemberStore {
         memberJpaRepository.save(memberJpo);
     }
 
-    public Member load(final String email, final String password) {
+    public Member load(final String email) {
         final MemberJpo memberJpo = memberJpaRepository
-                .findByEmailAndPassword(email, password)
+                .findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         return memberJpo.toMember();
