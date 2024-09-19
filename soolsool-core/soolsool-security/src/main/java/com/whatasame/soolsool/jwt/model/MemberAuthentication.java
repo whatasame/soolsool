@@ -1,4 +1,4 @@
-package com.whatasame.soolsool.security.model;
+package com.whatasame.soolsool.jwt.model;
 
 import java.util.Collection;
 import lombok.EqualsAndHashCode;

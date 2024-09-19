@@ -1,6 +1,6 @@
-package com.whatasame.soolsool.security.jwt;
+package com.whatasame.soolsool.jwt.jwt;
 
-import com.whatasame.soolsool.security.jwt.model.AuthToken.AccessToken;
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken.AccessToken;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,10 @@
-package com.whatasame.soolsool.security.config;
+package com.whatasame.soolsool.jwt.config;
 
-import com.whatasame.soolsool.security.handler.AccessDeniedHandlerImpl;
-import com.whatasame.soolsool.security.handler.AuthenticationEntryPointImpl;
-import com.whatasame.soolsool.security.jwt.JwtFilter;
-import com.whatasame.soolsool.security.jwt.JwtParser;
-import com.whatasame.soolsool.security.jwt.JwtValidator;
+import com.whatasame.soolsool.jwt.handler.AccessDeniedHandlerImpl;
+import com.whatasame.soolsool.jwt.handler.AuthenticationEntryPointImpl;
+import com.whatasame.soolsool.jwt.jwt.JwtFilter;
+import com.whatasame.soolsool.jwt.jwt.JwtParser;
+import com.whatasame.soolsool.jwt.jwt.JwtValidator;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class AuthConfig {
+public class JwtConfig {
 
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthenticationEntryPointImpl authenticationEntryPoint;
@@ -31,7 +31,7 @@ public class AuthConfig {
     private final JwtParser jwtParser;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtValidator jwtValidator)
+    public SecurityFilterChain jwtFilterChain(final HttpSecurity http, final JwtValidator jwtValidator)
             throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())

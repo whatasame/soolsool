@@ -1,9 +1,9 @@
 package com.whatasame.soolsool.member.endpoint;
 
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken;
 import com.whatasame.soolsool.member.command.EmailLogin;
 import com.whatasame.soolsool.member.service.AuthService;
 import com.whatasame.soolsool.rest.ApiResult;
-import com.whatasame.soolsool.security.jwt.model.AuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

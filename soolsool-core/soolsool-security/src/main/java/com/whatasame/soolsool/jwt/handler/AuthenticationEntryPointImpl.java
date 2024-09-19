@@ -1,4 +1,4 @@
-package com.whatasame.soolsool.security.handler;
+package com.whatasame.soolsool.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whatasame.soolsool.rest.ApiResult;

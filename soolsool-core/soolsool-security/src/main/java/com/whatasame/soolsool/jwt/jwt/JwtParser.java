@@ -1,7 +1,7 @@
-package com.whatasame.soolsool.security.jwt;
+package com.whatasame.soolsool.jwt.jwt;
 
-import com.whatasame.soolsool.security.jwt.model.AuthToken.AccessToken;
-import com.whatasame.soolsool.security.jwt.model.AuthToken.RefreshToken;
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken.AccessToken;
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;

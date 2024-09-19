@@ -1,4 +1,4 @@
-package com.whatasame.soolsool.security.jwt.model;
+package com.whatasame.soolsool.jwt.jwt.model;
 
 import lombok.Getter;
 import lombok.ToString;

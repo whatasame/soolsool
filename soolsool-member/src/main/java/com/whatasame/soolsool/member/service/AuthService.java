@@ -1,10 +1,10 @@
 package com.whatasame.soolsool.member.service;
 
+import com.whatasame.soolsool.jwt.jwt.JwtProvider;
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken;
 import com.whatasame.soolsool.member.aggregate.Member;
 import com.whatasame.soolsool.member.command.EmailLogin;
 import com.whatasame.soolsool.member.store.MemberStore;
-import com.whatasame.soolsool.security.jwt.JwtProvider;
-import com.whatasame.soolsool.security.jwt.model.AuthToken;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

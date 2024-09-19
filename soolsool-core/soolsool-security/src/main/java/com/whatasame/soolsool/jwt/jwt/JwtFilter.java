@@ -1,7 +1,7 @@
-package com.whatasame.soolsool.security.jwt;
+package com.whatasame.soolsool.jwt.jwt;
 
-import com.whatasame.soolsool.security.jwt.model.AuthToken.AccessToken;
-import com.whatasame.soolsool.security.model.MemberAuthentication;
+import com.whatasame.soolsool.jwt.jwt.model.AuthToken.AccessToken;
+import com.whatasame.soolsool.jwt.model.MemberAuthentication;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

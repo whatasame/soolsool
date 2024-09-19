@@ -1,4 +1,4 @@
-package com.whatasame.soolsool.security.jwt;
+package com.whatasame.soolsool.jwt.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
