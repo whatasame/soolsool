@@ -1,9 +1,13 @@
 spring:
+  config:
+    import: "classpath:application-security.yml"
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/soolsool
     username: root
     password: 1234
+
   jpa:
     database: mysql
     show-sql: true

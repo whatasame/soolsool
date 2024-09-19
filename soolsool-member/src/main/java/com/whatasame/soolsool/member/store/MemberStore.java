@@ -12,9 +12,21 @@ public class MemberStore {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public void save(Member member) {
-        MemberJpo memberJpo = new MemberJpo(member);
+    public void save(final Member member) {
+        final MemberJpo memberJpo = new MemberJpo(member);
 
         memberJpaRepository.save(memberJpo);
+    }
+
+    public Member load(final String email, final String password) {
+        final MemberJpo memberJpo = memberJpaRepository
+                .findByEmailAndPassword(email, password)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        return memberJpo.toMember();
+    }
+
+    public boolean isPresent(final String email) {
+        return memberJpaRepository.existsByEmail(email);
     }
 }
