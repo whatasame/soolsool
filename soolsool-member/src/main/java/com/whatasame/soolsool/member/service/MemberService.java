@@ -3,6 +3,7 @@ package com.whatasame.soolsool.member.service;
 import com.whatasame.soolsool.member.aggregate.Member;
 import com.whatasame.soolsool.member.aggregate.MemberRole;
 import com.whatasame.soolsool.member.command.CreateMember;
+import com.whatasame.soolsool.member.dto.MemberResponse;
 import com.whatasame.soolsool.member.store.MemberStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,5 +34,14 @@ public class MemberService {
                 command.address());
 
         memberStore.save(member);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse me(final long memberId) {
+        final Member member = memberStore
+                .findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")); // specify exception
+
+        return new MemberResponse(member.email(), member.name(), member.phone(), member.address());
     }
 }

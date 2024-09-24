@@ -34,4 +34,8 @@ public class MemberStore {
     public boolean isPresent(final String email) {
         return memberJpaRepository.existsByEmail(email);
     }
+
+    public Optional<Member> findById(final long memberId) {
+        return memberJpaRepository.findById(memberId).map(MemberJpo::toMember);
+    }
 }
