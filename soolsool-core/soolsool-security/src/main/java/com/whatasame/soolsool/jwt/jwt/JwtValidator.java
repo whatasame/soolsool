@@ -19,8 +19,8 @@ public class JwtValidator {
     }
 
     private boolean isExpired(final AccessToken token) {
-        final Date issuedAt = parser.parseIssuedAt(token);
+        final Date expiration = parser.parseExpiration(token);
 
-        return issuedAt.before(new Date());
+        return expiration.before(new Date());
     }
 }

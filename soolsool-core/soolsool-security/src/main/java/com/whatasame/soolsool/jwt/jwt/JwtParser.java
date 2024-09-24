@@ -26,8 +26,8 @@ public class JwtParser {
         return Long.parseLong(parseAccessToken(token).getSubject());
     }
 
-    public Date parseIssuedAt(final AccessToken token) {
-        return parseAccessToken(token).getIssuedAt();
+    public Date parseExpiration(final AccessToken token) {
+        return parseAccessToken(token).getExpiration();
     }
 
     public List<SimpleGrantedAuthority> parseAuthorities(final AccessToken token) {

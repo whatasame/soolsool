@@ -5,7 +5,6 @@ import com.whatasame.soolsool.member.service.MemberService;
 import com.whatasame.soolsool.rest.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +22,5 @@ public class MemberEndpoint {
         memberService.createMember(command);
 
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping
-    public String test() {
-        return "test";
     }
 }

@@ -22,12 +22,9 @@ public class JwtConfig {
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthenticationEntryPointImpl authenticationEntryPoint;
 
-    private final JwtValidator jwtValidator;
-    private final JwtParser jwtParser;
-
     @Bean
-    public SecurityFilterChain jwtFilterChain(final HttpSecurity http, final JwtValidator jwtValidator)
-            throws Exception {
+    public SecurityFilterChain jwtFilterChain(
+            final HttpSecurity http, final JwtParser jwtParser, final JwtValidator jwtValidator) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .addFilterBefore(new JwtFilter(jwtParser, jwtValidator), UsernamePasswordAuthenticationFilter.class)
