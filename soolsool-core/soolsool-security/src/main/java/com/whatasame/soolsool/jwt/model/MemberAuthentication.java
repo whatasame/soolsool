@@ -2,6 +2,7 @@ package com.whatasame.soolsool.jwt.model;
 
 import java.util.Collection;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 @EqualsAndHashCode
 public class MemberAuthentication implements Authentication {
 
+    @Getter
     private final long memberId;
+
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean authenticated;
 
@@ -37,7 +40,7 @@ public class MemberAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return memberId;
+        return this;
     }
 
     @Override
