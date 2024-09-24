@@ -5,3 +5,5 @@ include 'soolsool-core:soolsool-security'
 include 'soolsool-core:soolsool-rest'
 
 include 'soolsool-member'
+include 'soolsool-test'
+
