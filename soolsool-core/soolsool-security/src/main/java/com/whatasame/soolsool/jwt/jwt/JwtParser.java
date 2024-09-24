@@ -1,5 +1,7 @@
 package com.whatasame.soolsool.jwt.jwt;
 
+import static com.whatasame.soolsool.jwt.jwt.JwtProperties.AUTHORITIES_KEY;
+
 import com.whatasame.soolsool.jwt.jwt.model.AuthToken.AccessToken;
 import com.whatasame.soolsool.jwt.jwt.model.AuthToken.RefreshToken;
 import io.jsonwebtoken.Claims;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class JwtParser {
-
-    private static final String AUTHORITIES_KEY = "roles";
 
     private final JwtSecret jwtSecret;
 
